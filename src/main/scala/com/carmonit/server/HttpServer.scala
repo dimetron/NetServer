@@ -45,7 +45,7 @@ object HttpServer {
       complete(HttpEntity(ContentTypes.`application/json`, source))
     }
   }
-
+  
   def startServer = {
     val bindingFuture = Http().bindAndHandle(getRoutes, host, port)
     println(s"Http Server started at http://${host}:${port}")

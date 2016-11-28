@@ -8,6 +8,10 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.1.1")
 
 addSbtPlugin("com.artima.supersafe" % "sbtplugin" % "1.1.1")
 
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
+
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.0")
+
 // to kill and reload the spawned JVM
 // see: https://github.com/spray/sbt-revolver
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.8.0")

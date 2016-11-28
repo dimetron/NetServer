@@ -28,11 +28,13 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http-xml" % akkaHttpV,
 
     "org.scalaz" %% "scalaz-core" % scalazVersion,
-
     "org.scalactic" %% "scalactic" % scalaTestV,
     "org.scalatest" %% "scalatest" % scalaTestV % "test",
 
     "ch.qos.logback" % "logback-classic" % "1.1.7"
+
+    //WAITING LIST
+    //"com.github.swagger-akka-http" %% "swagger-akka-http" % "0.7.3",
   )
 }
 unmanagedResourceDirectories in Compile += {
