@@ -1,5 +1,7 @@
 Example application for Akka Steams and Akka Http
 
+[![Build Status](https://travis-ci.org/dimetron/NetServer.svg?branch=master)](https://travis-ci.org/dimetron/NetServer)
+
 
 Starting application
 
