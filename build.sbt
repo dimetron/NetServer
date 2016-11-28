@@ -10,7 +10,6 @@ packageName in Docker := "carmonit-net-server"
 
 dockerExposedPorts := Seq(5000)
 
-//additional plugins repo
 resolvers += "Artima plugins repository" at "http://repo.artima.com/releases"
 
 libraryDependencies ++= {
