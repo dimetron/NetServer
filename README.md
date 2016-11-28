@@ -24,3 +24,6 @@ curl -H "Accept: application/json" 127.0.0.1:8080
 
 
 
+
+
+[![Join the chat at https://gitter.im/dimetron/NetServer](https://badges.gitter.im/dimetron/NetServer.svg)](https://gitter.im/dimetron/NetServer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
