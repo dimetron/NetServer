@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Dmytro Rashko
+ * Copyright 2017 Dmytro Rashko
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ object HttpServer {
       complete(HttpEntity(ContentTypes.`application/json`, source))
     }
   }
-  
+
   def startServer = {
     val bindingFuture = Http().bindAndHandle(getRoutes, host, port)
     println(s"Http Server started at http://${host}:${port}")
