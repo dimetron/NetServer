@@ -3,7 +3,7 @@ language: scala
 sudo: required
 
 scala:
-  - "2.12.0"
+  - "2.12.1"
 
 jdk:
   - oraclejdk8
@@ -38,5 +38,5 @@ notifications:
       - https://webhooks.gitter.im/e/2fe62042a18d5ee7f061
     on_success: always  # options: [always|never|change] default: always
     on_failure: always  # options: [always|never|change] default: always
-    on_start: always     # options: [always|never|change] default: always
+    on_start:   always  # options: [always|never|change] default: always
 

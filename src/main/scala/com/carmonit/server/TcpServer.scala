@@ -27,8 +27,8 @@ import scala.concurrent.Future
 
 object TcpServer {
 
-  val host = "127.0.0.1"
-  val port = 8888
+  val HOST = "127.0.0.1"
+  val PORT = 8888
 
   implicit val system = ActorSystem("tcp-system")
   implicit val materializer = ActorMaterializer()
@@ -43,13 +43,13 @@ object TcpServer {
         allowTruncation = true
       ))
       .map(_.utf8String)
-      .map(_ + "!!!\n")
+      .map(_ + "\n")
       .map(ByteString(_))
   }
 
-  def startServer = {
-    val bindingFuture = Tcp().bindAndHandle(getFlow, host, port)
-    println(s"TCP Server started at ${host}:${port}")
+  def startServer: Future[ServerBinding] = {
+    val bindingFuture = Tcp().bindAndHandle(getFlow, HOST, PORT)
+    println(s"TCP Server started at ${HOST}:${PORT}")
     bindingFuture
   }
 

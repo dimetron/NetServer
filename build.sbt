@@ -41,6 +41,9 @@ unmanagedResourceDirectories in Compile += {
   baseDirectory.value / "src/main/resources"
 }
 
+// don't ignore Suites which is the default for the junit-interface
+testOptions += Tests.Argument(TestFrameworks.JUnit, "--ignore-runners=")
+
 licenses += ("Apache-2.0", url("http://opensource.org/licenses/apache2.0.php"))
 
 // enable updating file headers //
@@ -67,7 +70,7 @@ SbtScalariform.autoImport.scalariformPreferences := SbtScalariform.autoImport.sc
 // enable sbt-revolver
 Revolver.settings ++ Seq(
   Revolver.enableDebugging(port = 5050, suspend = false),
-  mainClass in reStart := Some("com.carmonit.server.ServerRunner")
+  mainClass in reStart := Some("com.carmonit.server.ServerMain")
 )
 
 // enable plugins //
