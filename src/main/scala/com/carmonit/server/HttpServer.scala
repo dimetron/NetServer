@@ -31,8 +31,8 @@ import spray.json.DefaultJsonProtocol._
 
 object HttpServer {
 
-  val host = "127.0.0.1"
-  val port = 8080
+  val HOST = "127.0.0.1"
+  val PORT = 8080
 
   implicit val system = ActorSystem("http-system")
   implicit val materializer = ActorMaterializer()
@@ -47,8 +47,8 @@ object HttpServer {
   }
 
   def startServer = {
-    val bindingFuture = Http().bindAndHandle(getRoutes, host, port)
-    println(s"Http Server started at http://${host}:${port}")
+    val bindingFuture = Http().bindAndHandle(getRoutes, HOST, PORT)
+    println(s"Http Server started at http://${HOST}:${PORT}")
     bindingFuture
   }
 

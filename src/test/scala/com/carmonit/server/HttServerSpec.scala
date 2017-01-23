@@ -28,6 +28,11 @@ class HttServerSpec extends WordSpec with Matchers with ScalatestRouteTest {
 
   "HTTP Server " should {
 
+    "Should start" in {
+      val server = HttpServer.startServer
+      HttpServer.stopServer(server)
+    }
+
     "Return Status === UP" in {
       Get() ~> routes ~> check {
         responseAs[String] shouldEqual """{ "Status": "UP" }"""

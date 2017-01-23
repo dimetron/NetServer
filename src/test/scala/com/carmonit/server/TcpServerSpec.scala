@@ -33,7 +33,7 @@ class TcpServerSpec extends WordSpec with Matchers with ScalatestRouteTest {
 
     "be able to write a sequence of ByteStrings" in {
 
-      TcpServer.startServer
+      val server = TcpServer.startServer
 
       val requestStr = "Test String!\n"
       val responsStr = new StringBuffer
@@ -50,6 +50,8 @@ class TcpServerSpec extends WordSpec with Matchers with ScalatestRouteTest {
       Thread.sleep(1000)
 
       responsStr.toString should be(requestStr)
+
+      TcpServer.stopServer(server)
     }
   }
 }
