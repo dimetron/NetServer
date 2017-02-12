@@ -14,8 +14,8 @@ resolvers += "Artima plugins repository" at "http://repo.artima.com/releases"
 
 libraryDependencies ++= {
 
-  val akkaHttpV = "10.0.1"
-  val scalaTestV = "3.2.0-SNAP1"
+  val akkaHttpV = "10.0.3"
+  val scalaTestV = "3.2.0-SNAP3"
   val scalazVersion = "7.2.8"
 
   Seq(
@@ -31,12 +31,17 @@ libraryDependencies ++= {
     "org.scalactic" %% "scalactic" % scalaTestV,
     "org.scalatest" %% "scalatest" % scalaTestV % "test",
 
-    "ch.qos.logback" % "logback-classic" % "1.1.8",
+    "ch.qos.logback" % "logback-classic" % "1.2.1",
 
     // https://github.com/swagger-akka-http/swagger-akka-http
     "com.github.swagger-akka-http" %% "swagger-akka-http" % "0.9.1"
   )
 }
+
+// sbt dependencyUpdatesReport
+
+
+
 unmanagedResourceDirectories in Compile += {
   baseDirectory.value / "src/main/resources"
 }

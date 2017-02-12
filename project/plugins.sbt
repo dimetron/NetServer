@@ -4,6 +4,8 @@ resolvers += "bintray-sbt-plugin-releases" at "http://dl.bintray.com/content/sbt
 
 resolvers += "artima plugins repository" at "http://repo.artima.com/releases"
 
+resolvers += Resolver.url("rtimush/sbt-plugin-snapshots", new URL("https://dl.bintray.com/rtimush/sbt-plugin-snapshots/"))(Resolver.ivyStylePatterns)
+
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.1.1")
 
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
@@ -19,3 +21,7 @@ addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.6.0")
 
 // enable updating file headers eg. for copyright
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "1.5.1")
+
+
+//check latest dependencies
+addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.3.0")
