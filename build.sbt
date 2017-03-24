@@ -14,9 +14,9 @@ resolvers += "Artima plugins repository" at "http://repo.artima.com/releases"
 
 libraryDependencies ++= {
 
-  val akkaHttpV = "10.0.3"
-  val scalaTestV = "3.2.0-SNAP3"
-  val scalazVersion = "7.2.8"
+  val akkaHttpV = "10.0.5"
+  val scalaTestV = "3.2.0-SNAP4"
+  val scalazVersion = "7.2.10"
 
   Seq(
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
@@ -31,10 +31,10 @@ libraryDependencies ++= {
     "org.scalactic" %% "scalactic" % scalaTestV,
     "org.scalatest" %% "scalatest" % scalaTestV % "test",
 
-    "ch.qos.logback" % "logback-classic" % "1.2.1",
+    "ch.qos.logback" % "logback-classic" % "1.2.2"
 
     // https://github.com/swagger-akka-http/swagger-akka-http
-    "com.github.swagger-akka-http" %% "swagger-akka-http" % "0.9.1"
+    //"com.github.swagger-akka-http" %% "swagger-akka-http" % "0.9.1"
   )
 }
 
