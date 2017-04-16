@@ -35,7 +35,10 @@ class HttServerSpec extends WordSpec with Matchers with ScalatestRouteTest {
 
     "Return Status === UP" in {
       Get() ~> routes ~> check {
-        responseAs[String] shouldEqual """{ "Status": "UP" }"""
+        responseAs[String] should fullyMatch regex """\{"Status": "UP", "time": ".*"\}"""
+
+        //"""(-)?(\d+)(\.\d*)?"""
+
       }
     }
   }

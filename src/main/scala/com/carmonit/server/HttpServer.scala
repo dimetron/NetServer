@@ -16,8 +16,9 @@
 
 package com.carmonit.server
 
-import scala.concurrent.Future
+import java.util.Calendar
 
+import scala.concurrent.Future
 import akka.actor.ActorSystem
 import akka.event.{ Logging, LoggingAdapter }
 import akka.http.scaladsl.Http
@@ -25,23 +26,24 @@ import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.model.{ ContentTypes, HttpEntity }
 import akka.http.scaladsl.server.Directives.{ complete, get, path }
 import akka.stream.ActorMaterializer
-
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import spray.json.DefaultJsonProtocol._
 
 object HttpServer {
 
-  val HOST = "127.0.0.1"
+  val HOST = "0.0.0.0"
   val PORT = 8080
 
   implicit val system = ActorSystem("http-system")
   implicit val materializer = ActorMaterializer()
   implicit val executionContext = system.dispatcher
+
   implicit val log: LoggingAdapter = Logging(system, this.getClass)
 
   def getRoutes = {
     get {
-      val source = """{ "Status": "UP" }"""
+      val now = Calendar.getInstance().getTime()
+      val source = s"""{"Status": "UP", "time": "$now"}"""
       complete(HttpEntity(ContentTypes.`application/json`, source))
     }
   }

@@ -1,22 +1,18 @@
 name := "NetServer"
 
-version := "1.1"
+version := "1.2"
 
 scalaVersion := "2.12.1"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-feature", "-target:jvm-1.8")
 
-packageName in Docker := "carmonit-net-server"
-
-dockerExposedPorts := Seq(5000)
-
-resolvers += "Artima plugins repository" at "http://repo.artima.com/releases"
-
 libraryDependencies ++= {
 
+  val scalazV = "7.2.10"
   val akkaHttpV = "10.0.5"
   val scalaTestV = "3.2.0-SNAP4"
-  val scalazVersion = "7.2.10"
+  val cassandraV = "3.2.0"
+
 
   Seq(
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
@@ -27,14 +23,12 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http-jackson" % akkaHttpV,
     "com.typesafe.akka" %% "akka-http-xml" % akkaHttpV,
 
-    "org.scalaz" %% "scalaz-core" % scalazVersion,
+    "org.scalaz" %% "scalaz-core" % scalazV,
     "org.scalactic" %% "scalactic" % scalaTestV,
     "org.scalatest" %% "scalatest" % scalaTestV % "test",
 
-    "ch.qos.logback" % "logback-classic" % "1.2.2"
-
-    // https://github.com/swagger-akka-http/swagger-akka-http
-    //"com.github.swagger-akka-http" %% "swagger-akka-http" % "0.9.1"
+    "com.datastax.cassandra" % "cassandra-driver-core" % cassandraV,
+    "ch.qos.logback" % "logback-classic" % "1.2.3"
   )
 }
 
@@ -80,3 +74,22 @@ Revolver.settings ++ Seq(
 
 // enable plugins //
 enablePlugins(AutomateHeaderPlugin)
+
+// docker plugin
+enablePlugins(JavaServerAppPackaging)
+
+dockerBaseImage       := "openjdk"
+dockerRepository      := Some("dimetron")
+dockerExposedPorts    := Vector(8080, 8888)
+
+version.in(Docker)    := "latest"
+packageName in Docker := "netserver"
+daemonUser.in(Docker) := "root"
+maintainer.in(Docker) := "Dmytro Rashko"
+
+
+
+mappings in Universal += {
+  val conf = (resourceDirectory in Compile).value / "application.conf"
+  conf -> "application.conf"
+}

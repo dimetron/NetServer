@@ -6,6 +6,16 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/5882b7a2452b830054c173cf/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5882b7a2452b830054c173cf)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dimetron/NetServer/blob/master/LICENSE)
 
+
+**Build & run local docker image**
+
+```bash
+sbt docker:publishLocal
+
+docker run --rm --name akka -p 8080:8080 -p 8888:8888 dimetron/netserver
+
+```
+
 **Starting application**
 
 ```bash
