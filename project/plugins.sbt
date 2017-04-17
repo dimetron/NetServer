@@ -12,6 +12,7 @@ resolvers += Resolver.url("rtimush/sbt-plugin-snapshots", new URL("https://dl.bi
 
 resolvers += "Typesafe" at "http://repo.typesafe.com/typesafe/releases/"
 
+addSbtPlugin("io.gatling" % "gatling-sbt" % "2.2.0")
 
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
 

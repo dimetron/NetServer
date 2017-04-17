@@ -9,12 +9,19 @@ scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-featur
 libraryDependencies ++= {
 
   val scalazV = "7.2.10"
+
+  val akkaVersion = "2.5.0"
   val akkaHttpV = "10.0.5"
   val scalaTestV = "3.2.0-SNAP4"
   val cassandraV = "3.2.0"
 
+  val gatlingVersion = "3.0.0-M7.FL"
 
   Seq(
+    //"com.typesafe.akka" %% "akka-actor" % akkaVersion,
+    //"com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
+    //"com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
+
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
     "com.typesafe.akka" %% "akka-http-core" % akkaHttpV,
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
@@ -24,18 +31,23 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http-xml" % akkaHttpV,
 
     "org.scalaz" %% "scalaz-core" % scalazV,
-    "org.scalactic" %% "scalactic" % scalaTestV,
-    "org.scalatest" %% "scalatest" % scalaTestV % "test",
 
     "com.datastax.cassandra" % "cassandra-driver-core" % cassandraV,
-    "ch.qos.logback" % "logback-classic" % "1.2.3"
+    "ch.qos.logback" % "logback-classic" % "1.2.3",
+
+    "org.scalactic" %% "scalactic" % scalaTestV % "test",
+    "org.scalatest" %% "scalatest" % scalaTestV % "test",
+
+    //integration load tests with gatling
+    "io.gatling.highcharts" % "gatling-charts-highcharts" % gatlingVersion % "it",
+    "io.gatling"            % "gatling-test-framework"    % gatlingVersion % "it"
   )
 }
 
+//default log level for sbt
+logLevel := Level.Error
+
 // sbt dependencyUpdatesReport
-
-
-
 unmanagedResourceDirectories in Compile += {
   baseDirectory.value / "src/main/resources"
 }
@@ -72,6 +84,14 @@ Revolver.settings ++ Seq(
   mainClass in reStart := Some("com.carmonit.server.ServerMain")
 )
 
+//gatling
+val gatlingRepository = "http://repository.gatling.io/ce2dec95-b42a-4518-9371-ad5672b320ad/content/repositories/releases"
+resolvers += "Gatling Corp's Repository" at gatlingRepository
+
+enablePlugins(GatlingPlugin)
+javaOptions in Gatling := overrideDefaultJavaOptions("-Xms1024m", "-Xmx1024m")
+logLevel in Gatling := Level.Error
+
 // enable plugins //
 enablePlugins(AutomateHeaderPlugin)
 
@@ -87,9 +107,23 @@ packageName in Docker := "netserver"
 daemonUser.in(Docker) := "root"
 maintainer.in(Docker) := "Dmytro Rashko"
 
-
-
 mappings in Universal += {
   val conf = (resourceDirectory in Compile).value / "application.conf"
   conf -> "application.conf"
 }
+
+javaOptions in Universal ++= Seq(
+  // -J params will be added as jvm parameters
+  "-J-Xmx64m",
+  "-J-Xms64m"
+
+  // others will be added as app parameters
+  //"-Dproperty=true",
+  //"-port=8080",
+
+  // you can access any build setting/task here
+  //s"-version=${version.value}"
+)
+
+
+

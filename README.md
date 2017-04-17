@@ -7,13 +7,16 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dimetron/NetServer/blob/master/LICENSE)
 
 
-**Build & run local docker image**
+**Build & run local docker image | testing**
 
 ```bash
 sbt docker:publishLocal
 
 docker run --rm --name akka -p 8080:8080 -p 8888:8888 dimetron/netserver
 
+docker-compose up -d
+
+sbt gatling-it:test
 ```
 
 **Starting application**
