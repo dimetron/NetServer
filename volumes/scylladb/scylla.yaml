@@ -1,11 +1,12 @@
+broadcast_address: 127.0.0.1
 cluster_name: Test Cluster
 commitlog_directory: /var/lib/scylla/commitlog
 data_file_directories: [/var/lib/scylla/data]
-listen_address: 172.18.0.7
+listen_address: 127.0.0.1
 native_transport_port: 9042
 num_tokens: 256
-rpc_address: 172.18.0.7
+rpc_address: 127.0.0.1
 seed_provider:
 - class_name: org.apache.cassandra.locator.SimpleSeedProvider
   parameters:
-  - {seeds: 172.18.0.7}
+  - {seeds: 127.0.0.1}
