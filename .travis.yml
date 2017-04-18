@@ -14,7 +14,7 @@ before_cache:
 
 before_install:
   - docker run -p 5672:5672 -d rabbitmq:3
-  - docker run -m 512M --memory-swap 512M --name database  -d -p 9042:9042 -v `pwd`/volumes/scylladb/scylla.yaml:/etc/scylla/scylla.yaml scylladb/scylla --developer-mode 1
+  - docker run -m 512M --memory-swap 512M --name database  -d -p 9042:9042 -v `pwd`/volumes/scylladb/scylla.yaml:/etc/scylla/scylla.yaml scylladb/scylla:1.7-rc2 --broadcast-address 127.0.0.1 --listen-address 127.0.0.1 --developer-mode 1
   - sleep 20
   - docker logs database
 
