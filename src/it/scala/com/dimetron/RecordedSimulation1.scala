@@ -1,10 +1,10 @@
 package com.dimetron
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import io.gatling.jdbc.Predef._
 
 class RecordedSimulation1 extends Simulation {
 

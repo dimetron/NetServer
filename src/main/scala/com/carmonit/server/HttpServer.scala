@@ -43,7 +43,6 @@ object HttpServer {
   //https://github.com/akka/akka-http/blob/master/docs/src/test/scala/docs/http/scaladsl/HttpServerExampleSpec.scala
 
   def startServer = {
-
     val bindingFuture = Http().bindAndHandle(getRoutes, HOST, PORT)
     println(s"Http Server started at http://${HOST}:${PORT}")
     bindingFuture

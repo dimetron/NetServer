@@ -18,9 +18,10 @@ package com.carmonit.server
 
 import akka.Done
 import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
 import akka.stream.alpakka.cassandra.scaladsl.CassandraSink
 import akka.stream.scaladsl.Sink
-import com.datastax.driver.core.{ Cluster, PreparedStatement }
+import com.datastax.driver.core.{ Cluster, PreparedStatement, Session }
 
 import scala.concurrent.Future
 
@@ -29,19 +30,26 @@ object CassandraStorage {
   //#init-mat
   implicit val system = ActorSystem()
   implicit val executionContext = system.dispatcher
+  implicit val materializer = ActorMaterializer()
   //#init-mat
 
-  //#init-session
-  implicit val session = Cluster.builder.addContactPoint("database").withPort(9042).build.connect()
-  //#init-session
+  implicit lazy val session = getSessionWithSchema
 
-  initSchema
   //#prepared-statement
-  val preparedStatement = session.prepare("INSERT INTO location_data.request_log(id) VALUES (?)")
+  lazy val preparedStatement = prepareInsert
 
-  def initSchema() {
+  def getSessionWithSchema: Session = {
+
+    println("==================================")
+    println("Connecting to the database ...")
+
+    val sess = Cluster.builder.addContactPoint("database")
+      .withPort(9042)
+      .withMaxSchemaAgreementWaitSeconds(20)
+      .build.connect()
+
     println("===== Running schema Check =====")
-    session.execute(
+    sess.execute(
       """
         |CREATE KEYSPACE IF NOT EXISTS location_data WITH replication = {
         |  'class': 'SimpleStrategy',
@@ -51,15 +59,21 @@ object CassandraStorage {
       stripMargin
     )
 
-    session.execute(
+    sess.execute(
       """
         |CREATE TABLE IF NOT EXISTS location_data.request_log (
         |    id text PRIMARY KEY
         |);
       """.
       stripMargin
-    )
+    ).getExecutionInfo.isSchemaInAgreement
+
+    println("==================================")
+
+    sess
   }
+
+  def prepareInsert = session.prepare("INSERT INTO location_data.request_log(id) VALUES (?)")
 
   def getInsertLogDataSink: Sink[String, Future[Done]] = {
 

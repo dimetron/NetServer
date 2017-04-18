@@ -15,6 +15,7 @@ before_cache:
 before_install:
   - docker run -p 5672:5672 -d rabbitmq:3
   - docker run -m512m --name database  -d -p 9042:9042 -v `pwd`/volumes/scylladb/scylla.yaml:/etc/scylla/scylla.yaml scylladb/scylla
+  - sleep 10
 
 cache:
   directories:

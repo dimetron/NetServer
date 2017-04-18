@@ -10,17 +10,17 @@ libraryDependencies ++= {
 
   val scalazV = "7.2.10"
 
-  val akkaVersion = "2.5.0"
+  val akkaVersion = "2.4.17"
   val akkaHttpV = "10.0.5"
   val scalaTestV = "3.2.0-SNAP4"
-  val cassandraV = "3.2.0"
+  val cassandraV = "3.1.0"
 
   val gatlingVersion = "3.0.0-M7.FL"
 
   Seq(
-    //"com.typesafe.akka" %% "akka-actor" % akkaVersion,
-    //"com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
-    //"com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
+    "com.typesafe.akka" %% "akka-actor" % akkaVersion,
+    "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
+    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test",
 
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
     "com.typesafe.akka" %% "akka-http-core" % akkaHttpV,
