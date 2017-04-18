@@ -29,7 +29,7 @@ services:
 sbt_args: -J-XX:ReservedCodeCacheSize=128m
 
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION coverage test coverageReport
+  - sbt ++$TRAVIS_SCALA_VERSION coverage test coverageReport gatling-it:test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

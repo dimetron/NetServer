@@ -9,7 +9,7 @@ services:
     ports:
       - "9042:9042"
     volumes:
-     - ./volumes/scylladb/scylla.yaml:/etc/scylla/scylla.yaml:rw
+     - ./volumes/scylladb/data:/var/lib/scylla/data:rw
 
   rabbit:
     image: rabbitmq:3

@@ -5,6 +5,7 @@
 /project/target/
 /target/
 /volumes/mongo/
+/volumes/scylladb/data/
 
 #Idea
 /.idea

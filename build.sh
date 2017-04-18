@@ -4,6 +4,7 @@
 docker-compose down
 docker-compose rm -vf
 touch docker-compose.yml
+rm -rf ./volumes/scylladb/data/
 
 #build app container using sbt
 sbt docker:publishLocal

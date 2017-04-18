@@ -35,9 +35,9 @@ class RecordedSimulation1 extends Simulation {
 	 */
 	setUp(scn.inject(
     	atOnceUsers(10), //												     // 50
-      constantUsersPerSec(50) during(10 seconds),   // 100
-			constantUsersPerSec(150)  during(20 seconds),  // 200
-      constantUsersPerSec(100)  during(10 seconds),  // 400
-      rampUsersPerSec(50) to 100 during(30 seconds)  //
+      constantUsersPerSec(5) during(10 seconds),   // 100
+			constantUsersPerSec(10)  during(20 seconds),  // 200
+      constantUsersPerSec(15)  during(10 seconds),  // 400
+      rampUsersPerSec(5) to 10 during(30 seconds)  //
 	)).protocols(httpProtocol)
 }

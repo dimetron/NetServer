@@ -27,7 +27,7 @@ sbt \~re-start
 
 ```bash
 
-docker run -m512m --name database -d -p 9042:9042 -v `pwd`/volumes/scylladb/scylla.yaml:/etc/scylla/scylla.yaml scylladb/scylla
+docker run --name database  -d -p 9042:9042 scylladb/scylla:1.7-rc2 --developer-mode 1
 
 sbt clean coverage test coverageReport
 ```
