@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.carmonit.data.store
+package com.carmonit.server
 
 import akka.Done
 import akka.actor.ActorSystem

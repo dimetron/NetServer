@@ -1,10 +1,26 @@
+/*
+ * Copyright 2017 Dmytro Rashko
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.carmonit.server
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import akka.stream.alpakka.cassandra.scaladsl.{CassandraSink, CassandraSource}
-import akka.stream.scaladsl.{Sink, Source}
-import com.datastax.driver.core.{Cluster, PreparedStatement, SimpleStatement}
+import akka.stream.alpakka.cassandra.scaladsl.{ CassandraSink, CassandraSource }
+import akka.stream.scaladsl.{ Sink, Source }
+import com.datastax.driver.core.{ Cluster, PreparedStatement, SimpleStatement }
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
 
@@ -13,14 +29,14 @@ import scala.concurrent._
 import scala.concurrent.duration._
 
 /**
-  *  Modified Example test from Alpakka cassandra connector
-  */
+ *  Modified Example test from Alpakka cassandra connector
+ */
 
 class CassandraStorageSpec extends WordSpec
-  with ScalaFutures
-  with BeforeAndAfterEach
-  with BeforeAndAfterAll
-  with MustMatchers {
+    with ScalaFutures
+    with BeforeAndAfterEach
+    with BeforeAndAfterAll
+    with MustMatchers {
 
   //#init-mat
   implicit val system = ActorSystem()
@@ -46,7 +62,7 @@ class CassandraStorageSpec extends WordSpec
     session.execute(
       """
         |CREATE TABLE IF NOT EXISTS akka_stream_scala_test.test (
-        |    id text PRIMARY KEY
+        |    id int PRIMARY KEY
         |);
       """.stripMargin
     )

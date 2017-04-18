@@ -25,9 +25,7 @@ import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.model.{ ContentTypes, HttpEntity }
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
-import akka.stream.scaladsl.{ Framing, Source }
-import akka.util.ByteString
-import com.carmonit.data.store.CassandraStorage
+import akka.stream.scaladsl.{ Source }
 
 import scala.concurrent.Future
 

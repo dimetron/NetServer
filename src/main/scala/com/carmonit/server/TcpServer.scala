@@ -19,12 +19,9 @@ package com.carmonit.server
 import akka.actor.ActorSystem
 import akka.event.{ Logging, LoggingAdapter }
 import akka.stream.ActorMaterializer
-import akka.stream.alpakka.cassandra.scaladsl.CassandraSink
 import akka.stream.scaladsl.Tcp.ServerBinding
 import akka.stream.scaladsl.{ Flow, Framing, Tcp }
 import akka.util.ByteString
-import com.carmonit.data.store.CassandraStorage
-import com.datastax.driver.core.{ Cluster, PreparedStatement }
 
 import scala.concurrent.Future
 
