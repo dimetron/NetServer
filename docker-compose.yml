@@ -1,90 +1,71 @@
 version: '2.1'
 services:
-  cassandra-1:
-    hostname: cassandra-1
-    image: cassandra:latest
+  database:
+    hostname: database
+    image: scylladb/scylla:1.7-rc2
+    command: --developer-mode 1
     restart: always
     mem_limit: 512m
-    #command: /bin/bash -c "sleep 1 && echo ' -- Pausing to let system catch up ... -->' && /docker-entrypoint.sh cassandra -f"
-    command: /bin/bash -c "/docker-entrypoint.sh cassandra -f"
-    expose:
-      - 7000
-      - 7001
-      - 7199
-      - 9042
-      - 9160
+    ports:
+      - "9042:9042"
     volumes:
-     - ./volumes/cassandra/jvm.options:/etc/cassandra/jvm.options
-    # volumes: # uncomment if you desire mounts, also uncomment cluster.sh
-    #   - ./data/cassandra-1:/var/lib/cassandra:rw
-    networks:
-      app_net:
+     - ./volumes/scylladb/scylla.yaml:/etc/scylla/scylla.yaml:rw
 
   rabbit:
     image: rabbitmq:3
     restart: always
-    networks:
-      app_net:
 
   akka1:
     image: dimetron/netserver
     restart: always
     hostname: akka1
     depends_on:
-     - cassandra-1
+     - database
      - rabbit
     links:
-     - cassandra-1
+     - database
      - rabbit
     ports:
       - "8081:8080"
-    networks:
-      app_net:
 
   akka2:
     image: dimetron/netserver
     restart: always
     hostname: akka2
     depends_on:
-      - cassandra-1
+      - database
       - rabbit
     links:
-      - cassandra-1
+      - database
       - rabbit
     ports:
       - "8082:8080"
-    networks:
-      app_net:
 
   akka3:
     image: dimetron/netserver
     restart: always
     hostname: akka2
     depends_on:
-      - cassandra-1
+      - database
       - rabbit
     links:
-      - cassandra-1
+      - database
       - rabbit
     ports:
       - "8083:8080"
-    networks:
-      app_net:
 
   akka4:
     image: dimetron/netserver
     restart: always
     hostname: akka2
     depends_on:
-      - cassandra-1
+      - database
       - rabbit
     links:
-      - cassandra-1
+      - database
       - rabbit
     ports:
       - "8084:8080"
-    networks:
-      app_net:
 
   linkerd:
     image: buoyantio/linkerd:1.0.0-rc2
@@ -113,17 +94,3 @@ services:
     volumes:
      - ./volumes/linkerd/disco:/disco
      - ./volumes/linkerd/config.yaml:/config.yaml
-    networks:
-      app_net:
-
-networks:
-  app_net:
-    driver: bridge
-    enable_ipv6: true
-    ipam:
-      driver: default
-      config:
-      -
-        subnet: 172.16.238.0/24
-      -
-        subnet: 2001:3984:3989::/64

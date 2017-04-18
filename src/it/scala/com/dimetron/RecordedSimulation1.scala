@@ -9,7 +9,7 @@ import io.gatling.jdbc.Predef._
 class RecordedSimulation1 extends Simulation {
 
 	val httpProtocol = http
-		.baseURL("http://scw.carmonit.com:8080")
+		.baseURL("http://127.0.0.1:8080")
 		.inferHtmlResources()
 		.acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
 		.acceptEncodingHeader("gzip, deflate, sdch")

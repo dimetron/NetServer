@@ -18,16 +18,18 @@ package com.carmonit.server
 
 import java.util.Calendar
 
-import scala.concurrent.Future
 import akka.actor.ActorSystem
 import akka.event.{ Logging, LoggingAdapter }
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.model.{ ContentTypes, HttpEntity }
-import akka.http.scaladsl.server.Directives.{ complete, get, path }
+import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import spray.json.DefaultJsonProtocol._
+import akka.stream.scaladsl.{ Framing, Source }
+import akka.util.ByteString
+import com.carmonit.data.store.CassandraStorage
+
+import scala.concurrent.Future
 
 object HttpServer {
 
@@ -40,18 +42,35 @@ object HttpServer {
 
   implicit val log: LoggingAdapter = Logging(system, this.getClass)
 
-  def getRoutes = {
-    get {
-      val now = Calendar.getInstance().getTime()
-      val source = s"""{"Status": "UP", "time": "$now"}"""
-      complete(HttpEntity(ContentTypes.`application/json`, source))
-    }
-  }
+  //https://github.com/akka/akka-http/blob/master/docs/src/test/scala/docs/http/scaladsl/HttpServerExampleSpec.scala
 
   def startServer = {
+
     val bindingFuture = Http().bindAndHandle(getRoutes, HOST, PORT)
     println(s"Http Server started at http://${HOST}:${PORT}")
     bindingFuture
+  }
+
+  def getRoutes = {
+    get {
+      withoutSizeLimit {
+        extractDataBytes { data =>
+          extractMaterializer { materializer =>
+
+            val now = Calendar.getInstance().getTime()
+            val nanos = System.nanoTime().toLong
+            val source = s"""{"Status": "UP", "time": "$now-$nanos"}"""
+
+            val result = Source.single(source).runWith(CassandraStorage.getInsertLogDataSink)(materializer)
+
+            // we only want to respond once the incoming data has been handled:
+            onComplete(result) { res =>
+              complete(HttpEntity(ContentTypes.`application/json`, source))
+            }
+          }
+        }
+      }
+    }
   }
 
   def stopServer(bindingFuture: Future[ServerBinding]) {

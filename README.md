@@ -7,12 +7,10 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/dimetron/NetServer/blob/master/LICENSE)
 
 
-**Build & run local docker image | testing**
+**Build & run local docker image | load testing**
 
 ```bash
 sbt docker:publishLocal
-
-docker run --rm --name akka -p 8080:8080 -p 8888:8888 dimetron/netserver
 
 docker-compose up -d
 
@@ -28,6 +26,9 @@ sbt \~re-start
 **Run tests with coverage**
 
 ```bash
+
+docker run -m512m --name database  --rm -d -p 9042:9042 -v `pwd`/volumes/scylladb/scylla.yaml:/etc/scylla/scylla.yaml scylladb/scylla
+
 sbt clean coverage test coverageReport
 ```
 

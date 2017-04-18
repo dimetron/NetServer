@@ -30,6 +30,9 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-http-jackson" % akkaHttpV,
     "com.typesafe.akka" %% "akka-http-xml" % akkaHttpV,
 
+    //integration alpakka
+    "com.lightbend.akka" %% "akka-stream-alpakka-cassandra" % "0.7",
+
     "org.scalaz" %% "scalaz-core" % scalazV,
 
     "com.datastax.cassandra" % "cassandra-driver-core" % cassandraV,

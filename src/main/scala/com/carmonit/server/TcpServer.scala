@@ -19,9 +19,12 @@ package com.carmonit.server
 import akka.actor.ActorSystem
 import akka.event.{ Logging, LoggingAdapter }
 import akka.stream.ActorMaterializer
+import akka.stream.alpakka.cassandra.scaladsl.CassandraSink
 import akka.stream.scaladsl.Tcp.ServerBinding
 import akka.stream.scaladsl.{ Flow, Framing, Tcp }
 import akka.util.ByteString
+import com.carmonit.data.store.CassandraStorage
+import com.datastax.driver.core.{ Cluster, PreparedStatement }
 
 import scala.concurrent.Future
 
@@ -36,6 +39,7 @@ object TcpServer {
   implicit val log: LoggingAdapter = Logging(system, this.getClass)
 
   def getFlow = {
+
     Flow[ByteString]
       .via(Framing.delimiter(
         ByteString("\n"),
@@ -44,6 +48,7 @@ object TcpServer {
       ))
       .map(_.utf8String)
       .map(_ + "\n")
+      .alsoTo(CassandraStorage.getInsertLogDataSink)
       .map(ByteString(_))
   }
 
