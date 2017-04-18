@@ -34,10 +34,10 @@ class RecordedSimulation1 extends Simulation {
 			http://gatling.io/docs/2.2/general/simulation_setup
 	 */
 	setUp(scn.inject(
-    	atOnceUsers(10), //												     // 50
-      constantUsersPerSec(5) during(10 seconds),   // 100
-			constantUsersPerSec(10)  during(20 seconds),  // 200
-      constantUsersPerSec(15)  during(10 seconds),  // 400
-      rampUsersPerSec(5) to 10 during(30 seconds)  //
+      	atOnceUsers(30),               		     // 100
+      	constantUsersPerSec(70) during(5 seconds),   // 150
+	  	constantUsersPerSec(100)  during(10 seconds),// 250
+      	constantUsersPerSec(150)  during(20 seconds),// 400
+      	rampUsersPerSec(50) to 200 during(30 seconds)// 600
 	)).protocols(httpProtocol)
 }

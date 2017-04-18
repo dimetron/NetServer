@@ -92,7 +92,7 @@ val gatlingRepository = "http://repository.gatling.io/ce2dec95-b42a-4518-9371-ad
 resolvers += "Gatling Corp's Repository" at gatlingRepository
 
 enablePlugins(GatlingPlugin)
-javaOptions in Gatling := overrideDefaultJavaOptions("-Xms1024m", "-Xmx1024m")
+javaOptions in Gatling := overrideDefaultJavaOptions("-Xms256m", "-Xmx256m")
 logLevel in Gatling := Level.Error
 
 // enable plugins //

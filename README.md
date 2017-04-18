@@ -53,21 +53,24 @@ curl -H "Accept: application/json" 127.0.0.1:8080
 **Gatling Load test results (server with 2 cores and 2GB RAM)**
 
 ```
-    ================================================================================
-    ---- Global Information --------------------------------------------------------
-    > request count                                      13458 (OK=13398  KO=60    )
-    > min response time                                      0 (OK=25     KO=0     )
-    > max response time                                   8371 (OK=8371   KO=0     )
-    > mean response time                                   289 (OK=290    KO=0     )
-    > std deviation                                        868 (OK=870    KO=0     )
-    > response time 50th percentile                         58 (OK=58     KO=0     )
-    > response time 75th percentile                         79 (OK=79     KO=0     )
-    > response time 95th percentile                       1465 (OK=1477   KO=0     )
-    > response time 99th percentile                       4483 (OK=4488   KO=0     )
-    > mean requests/sec                                168.225 (OK=167.475 KO=0.75  )
-    ---- Response Time Distribution ------------------------------------------------
-    > t < 800 ms                                         12378 ( 92%)
-    > 800 ms < t < 1200 ms                                 260 (  2%)
-    > t > 1200 ms                                          760 (  6%)
-    > failed                                                60 (  0%)
+---- Global Information --------------------------------------------------------
+> request count                                       1270 (OK=1270   KO=0     )
+> min response time                                     13 (OK=13     KO=-     )
+> max response time                                   8256 (OK=8256   KO=-     )
+> mean response time                                   288 (OK=288    KO=-     )
+> std deviation                                        943 (OK=943    KO=-     )
+> response time 50th percentile                         35 (OK=35     KO=-     )
+> response time 75th percentile                         67 (OK=67     KO=-     )
+> response time 95th percentile                       1418 (OK=1418   KO=-     )
+> response time 99th percentile                       5858 (OK=5858   KO=-     )
+> mean requests/sec                                 17.887 (OK=17.887 KO=-     )
+---- Response Time Distribution ------------------------------------------------
+> t < 800 ms                                          1161 ( 91%)
+> 800 ms < t < 1200 ms                                  37 (  3%)
+> t > 1200 ms                                           72 (  6%)
+> failed                                                 0 (  0%)
+================================================================================
+
+
+
 ```

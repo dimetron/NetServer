@@ -5,7 +5,7 @@ services:
     image: scylladb/scylla:1.7-rc2
     command: --developer-mode 1
     restart: always
-    mem_limit: 512m
+    mem_limit: 1024m
     ports:
       - "9042:9042"
     volumes:
@@ -18,6 +18,7 @@ services:
   akka1:
     image: dimetron/netserver
     restart: always
+    mem_limit: 128m
     hostname: akka1
     depends_on:
      - database
@@ -31,6 +32,7 @@ services:
   akka2:
     image: dimetron/netserver
     restart: always
+    mem_limit: 128m
     hostname: akka2
     depends_on:
       - database
@@ -44,6 +46,7 @@ services:
   akka3:
     image: dimetron/netserver
     restart: always
+    mem_limit: 128m
     hostname: akka2
     depends_on:
       - database
@@ -54,36 +57,23 @@ services:
     ports:
       - "8083:8080"
 
-  akka4:
-    image: dimetron/netserver
-    restart: always
-    hostname: akka2
-    depends_on:
-      - database
-      - rabbit
-    links:
-      - database
-      - rabbit
-    ports:
-      - "8084:8080"
-
   linkerd:
     image: buoyantio/linkerd:1.0.0-rc2
     restart: always
     mem_limit: 512m
-    environment:
-      - JVM_HEAP_MAX=256m
+    environment:      
+      - JVM_HEAP_MAX=400m
     command: [/config.yaml]
     restart: always
     hostname: proxy
     depends_on:
      - akka1
      - akka2
-     - rabbit
+     - akka3
     links:
       - akka1
       - akka2
-      - rabbit
+      - akka3
     ports:
       - "8080:8080"
       - "9990:9990"
