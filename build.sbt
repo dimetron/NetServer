@@ -92,7 +92,7 @@ val gatlingRepository = "http://repository.gatling.io/ce2dec95-b42a-4518-9371-ad
 resolvers += "Gatling Corp's Repository" at gatlingRepository
 
 enablePlugins(GatlingPlugin)
-javaOptions in Gatling := overrideDefaultJavaOptions("-Xms256m", "-Xmx256m")
+javaOptions in Gatling := overrideDefaultJavaOptions("-Xms64m", "-Xmx256m")
 logLevel in Gatling := Level.Error
 
 // enable plugins //
@@ -117,16 +117,22 @@ mappings in Universal += {
 
 javaOptions in Universal ++= Seq(
   // -J params will be added as jvm parameters
-  "-J-Xmx64m",
-  "-J-Xms64m"
+  "-J-Xms128m",
+  "-J-Xmx512m",
+  "-J-server",
+  "-J-XX:+UseNUMA",
+  "-J-XX:+UseCondCardMark",
+  "-J-XX:-UseBiasedLocking", 
+  "-J-Xss1M", 
+  "-J-XX:+UseParallelGC",
 
-  // others will be added as app parameters
-  //"-Dproperty=true",
-  //"-port=8080",
+  "-J-XX:+PrintCommandLineFlags",
+  "-J-XX:+AggressiveOpts",
+  "-J-XX:+UseStringDeduplication",
 
+  "-Dsun.net.inetaddr.ttl=60",
+  "-Djava.net.preferIPv4Stack=true"
+  
   // you can access any build setting/task here
   //s"-version=${version.value}"
 )
-
-
-

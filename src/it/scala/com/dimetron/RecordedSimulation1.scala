@@ -9,7 +9,8 @@ import io.gatling.http.Predef._
 class RecordedSimulation1 extends Simulation {
 
 	val httpProtocol = http
-		.baseURL("http://127.0.0.1:8080")
+		.baseURL("http://scw.carmonit.com:8080")
+		//.baseURL("http://127.0.0.1:8080")
 		.inferHtmlResources()
 		.acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
 		.acceptEncodingHeader("gzip, deflate, sdch")
@@ -31,13 +32,22 @@ class RecordedSimulation1 extends Simulation {
 			.headers(headers_1)))
 
 	/*
-			http://gatling.io/docs/2.2/general/simulation_setup
-	 */
+	
+	http://gatling.io/docs/2.2/general/simulation_setup
+
+	*/
+
 	setUp(scn.inject(
-      	atOnceUsers(30),               		     // 100
-      	constantUsersPerSec(70) during(5 seconds),   // 150
-	  	constantUsersPerSec(100)  during(10 seconds),// 250
-      	constantUsersPerSec(150)  during(20 seconds),// 400
-      	rampUsersPerSec(50) to 200 during(30 seconds)// 600
-	)).protocols(httpProtocol)
+		atOnceUsers(200),    
+		constantUsersPerSec(100) during(3 minute)
+	)).throttle(
+	  		reachRps(100) in (15 seconds),
+	  		jumpToRps(200),
+	  		holdFor(2 minute),
+	  		jumpToRps(250),
+	  		holdFor(30 seconds)
+	).protocols(httpProtocol)
+
+
+
 }

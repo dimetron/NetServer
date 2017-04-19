@@ -18,7 +18,6 @@ services:
   akka1:
     image: dimetron/netserver
     restart: always
-    mem_limit: 128m
     hostname: akka1
     depends_on:
      - database
@@ -32,7 +31,6 @@ services:
   akka2:
     image: dimetron/netserver
     restart: always
-    mem_limit: 128m
     hostname: akka2
     depends_on:
       - database
@@ -46,8 +44,7 @@ services:
   akka3:
     image: dimetron/netserver
     restart: always
-    mem_limit: 128m
-    hostname: akka2
+    hostname: akka3
     depends_on:
       - database
       - rabbit
@@ -60,9 +57,8 @@ services:
   linkerd:
     image: buoyantio/linkerd:1.0.0-rc2
     restart: always
-    mem_limit: 512m
     environment:      
-      - JVM_HEAP_MAX=400m
+      - JVM_HEAP_MAX=512m
     command: [/config.yaml]
     restart: always
     hostname: proxy
@@ -84,3 +80,7 @@ services:
     volumes:
      - ./volumes/linkerd/disco:/disco
      - ./volumes/linkerd/config.yaml:/config.yaml
+
+
+
+

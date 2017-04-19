@@ -7,13 +7,16 @@ touch docker-compose.yml
 rm -rf ./volumes/scylladb/data/
 
 #build app container using sbt
-sbt -batch docker:publishLocal
+sbt -J-Xms64m -J-Xmx256m -J-XX:ReservedCodeCacheSize=128m -batch docker:publishLocal
+docker-compose up -d database
+
+#wait 10 sec and restart akka cluster
+
+sleep 10 && docker-compose up -d akka1
+sleep 10 && docker-compose up -d akka2
+sleep 10 && docker-compose up -d akka3
+
 docker-compose up -d
 
-sleep 10
-#wait 10 sec and restart akka cluster
-docker-compose restart  akka1 akka2 akka3
-	
-sleep 10
 #run tests
-sbt -batch gatling-it:test
+echo "sbt -J-Xms512m -J-Xmx1024m -J-XX:ReservedCodeCacheSize=128m -batch gatling-it:test"
