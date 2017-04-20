@@ -39,13 +39,13 @@ class RecordedSimulation1 extends Simulation {
 
 	setUp(scn.inject(
 		atOnceUsers(200),    
-		constantUsersPerSec(100) during(3 minute)
+		constantUsersPerSec(100) during(30 minute)
 	)).throttle(
 	  		reachRps(100) in (15 seconds),
 	  		jumpToRps(200),
-	  		holdFor(2 minute),
+	  		holdFor(20 minute),
 	  		jumpToRps(250),
-	  		holdFor(30 seconds)
+	  		holdFor(10 minute)
 	).protocols(httpProtocol)
 
 
