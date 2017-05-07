@@ -34,3 +34,5 @@ project/plugins/project/
 src/main/java/
 src/test/java/
 src/test/resources/
+src/it/resources/
+volumes/cassandra/
