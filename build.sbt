@@ -225,3 +225,6 @@ javaOptions in Universal ++= Seq(
   // you can access any build setting/task here
   //s"-version=${version.value}"
 )
+
+//exclude main method from test coverage report
+coverageExcludedPackages := "<empty>;com\\.carmonit\\.server\\.ServerMain;"
