@@ -2,18 +2,19 @@ version: '2.1'
 services:
   database:
     hostname: database
-    image: scylladb/scylla:1.7-rc2
-    command: --developer-mode 1
+    image: cassandra:3
     restart: always
     mem_limit: 1024m
     ports:
       - "9042:9042"
     volumes:
-     - ./volumes/scylladb/data:/var/lib/scylla/data:rw
+     - ./volumes/cassandra/data:/var/lib/cassandra:rw
 
   rabbit:
     image: rabbitmq:3
     restart: always
+    ports:
+      - "5672:5672"
 
   akka1:
     image: dimetron/netserver
@@ -73,10 +74,6 @@ services:
     ports:
       - "8080:8080"
       - "9990:9990"
-      - "1883:1883"
-      - "8883:8883"
-      - "5672:5672"
-      - "15672:15672"
     volumes:
      - ./volumes/linkerd/disco:/disco
      - ./volumes/linkerd/config.yaml:/config.yaml

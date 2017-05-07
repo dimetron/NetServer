@@ -70,7 +70,7 @@ object HttpServer {
     }
   }
 
-  def stopServer(bindingFuture: Future[ServerBinding]) {
+  def stopServer(bindingFuture: Future[ServerBinding]) = {
     println(s"Http Server stopping")
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port

@@ -55,7 +55,7 @@ object TcpServer {
     bindingFuture
   }
 
-  def stopServer(bindingFuture: Future[ServerBinding]) {
+  def stopServer(bindingFuture: Future[ServerBinding]) = {
     println(s"TCP Server stopping")
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port

@@ -11,31 +11,18 @@ routers:
   servers:
   - port: 8080
     ip: 0.0.0.0
-    maxConcurrentRequests: 1000
+    maxConcurrentRequests: 900
   client:
     engine:
       kind: netty4
     loadBalancer:
       kind: ewma
-      maxEffort: 5
-      decayTimeMs: 5000
+      maxEffort: 3
+      decayTimeMs: 10000
     retries:
       budget:
-        percentCanRetry: 2.0
-    failureAccrual:
-      kind: io.l5d.successRate
-      successRate: 0.9
-      requests: 20
-      backoff:
-        kind: constant
-        ms: 10000
-  bindingCache:
-    paths: 10
-    trees: 200
-    bounds: 200
-    clients: 10
+        percentCanRetry: 0.5
   label: AkkaCluster
-  dstPrefix: /akka/http
   dtab: |
     /svc => /#/io.l5d.fs/app
   responseClassifier:
