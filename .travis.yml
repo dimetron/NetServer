@@ -14,8 +14,8 @@ before_cache:
 
 before_install:
   - docker run -p 5672:5672 -d rabbitmq:3
-  - docker run --name database  -d -p 9042:9042 scylladb/scylla:1.7-rc2 --developer-mode 1
-  - sleep 5
+  - docker run --name database  -d -p 9042:9042 cassandra:3
+  - sleep 30
   - docker logs database
 
 cache:
