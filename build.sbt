@@ -2,7 +2,7 @@ name := "NetServer"
 
 version := "1.1"
 
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.3"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-feature", "-target:jvm-1.8")
 
@@ -14,9 +14,9 @@ resolvers += "Artima plugins repository" at "http://repo.artima.com/releases"
 
 libraryDependencies ++= {
 
-  val akkaHttpV = "10.0.3"
-  val scalaTestV = "3.2.0-SNAP3"
-  val scalazVersion = "7.2.8"
+  val akkaHttpV = "10.0.9"
+  val scalaTestV = "3.2.0-SNAP9"
+  val scalazVersion = "7.2.15"
 
   Seq(
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
@@ -31,10 +31,10 @@ libraryDependencies ++= {
     "org.scalactic" %% "scalactic" % scalaTestV,
     "org.scalatest" %% "scalatest" % scalaTestV % "test",
 
-    "ch.qos.logback" % "logback-classic" % "1.2.1",
+    "ch.qos.logback" % "logback-classic" % "1.2.3",
 
     // https://github.com/swagger-akka-http/swagger-akka-http
-    "com.github.swagger-akka-http" %% "swagger-akka-http" % "0.9.1"
+    "com.github.swagger-akka-http" %% "swagger-akka-http" % "0.11.0"
   )
 }
 
@@ -80,3 +80,50 @@ Revolver.settings ++ Seq(
 
 // enable plugins //
 enablePlugins(AutomateHeaderPlugin)
+
+
+// docker plugin
+enablePlugins(JavaServerAppPackaging)
+
+dockerBaseImage := "openjdk:8u141-jre-slim"
+dockerRepository := Some("dimetron")
+dockerExposedPorts := Vector(8080, 8888)
+
+version.in(Docker) := "latest"
+packageName in Docker := "netserver"
+daemonUser.in(Docker) := "root"
+maintainer.in(Docker) := "Dmytro Rashko"
+
+mappings in Universal += {
+  val conf = (resourceDirectory in Compile).value / "application.conf"
+  conf -> "application.conf"
+}
+
+javaOptions in Universal ++= Seq(
+  // -J params will be added as jvm parameters
+  "-J-Xms128m",
+  "-J-Xmx512m",
+  "-J-server",
+  "-J-XX:+UseNUMA",
+  "-J-XX:+UseCondCardMark",
+  "-J-XX:-UseBiasedLocking",
+  "-J-Xss1M",
+  "-J-XX:+UseParallelGC",
+
+  "-J-XX:+PrintCommandLineFlags",
+  "-J-XX:+AggressiveOpts",
+  "-J-XX:+UseStringDeduplication",
+
+  // https://blogs.oracle.com/java-platform-group/java-se-support-for-docker-cpu-and-memory-limits
+  "-J-XX:+UnlockExperimentalVMOptions", 
+  "-J-XX:+UseCGroupMemoryLimitForHeap",
+
+  "-Dsun.net.inetaddr.ttl=60",
+  "-Djava.net.preferIPv4Stack=true"
+
+  // you can access any build setting/task here
+  //s"-version=${version.value}"
+)
+
+//exclude main method from test coverage report
+coverageExcludedPackages := "<empty>;com\\.carmonit\\.server\\.ServerMain;"
