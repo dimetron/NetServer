@@ -4,6 +4,8 @@
 /project/project/
 /project/target/
 /target/
+/volumes/mongo/
+/volumes/cassandra/data/
 
 #Idea
 /.idea
@@ -29,3 +31,8 @@ project/plugins/project/
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
+src/main/java/
+src/test/java/
+src/test/resources/
+src/it/resources/
+volumes/cassandra/

@@ -36,6 +36,7 @@ object TcpServer {
   implicit val log: LoggingAdapter = Logging(system, this.getClass)
 
   def getFlow = {
+
     Flow[ByteString]
       .via(Framing.delimiter(
         ByteString("\n"),
@@ -44,6 +45,7 @@ object TcpServer {
       ))
       .map(_.utf8String)
       .map(_ + "\n")
+      .alsoTo(CassandraStorage.getInsertLogDataSink)
       .map(ByteString(_))
   }
 
@@ -53,7 +55,7 @@ object TcpServer {
     bindingFuture
   }
 
-  def stopServer(bindingFuture: Future[ServerBinding]) {
+  def stopServer(bindingFuture: Future[ServerBinding]) = {
     println(s"TCP Server stopping")
     bindingFuture
       .flatMap(_.unbind()) // trigger unbinding from the port

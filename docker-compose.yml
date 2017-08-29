@@ -1,10 +1,83 @@
-# For detailed information about docker-compose visit https://docs.docker.com/compose/
-# To start all docker containers required to execute the tests locally run:
-# docker-compose up
-
-version: '2'
+version: '2.1'
 services:
-  rabbitmq:
+  database:
+    hostname: database
+    image: cassandra:3
+    restart: always
+    mem_limit: 1024m
+    ports:
+      - "9042:9042"
+    volumes:
+     - ./volumes/cassandra/data:/var/lib/cassandra:rw
+
+  rabbit:
     image: rabbitmq:3
+    restart: always
     ports:
       - "5672:5672"
+
+  akka1:
+    image: dimetron/netserver
+    restart: always
+    hostname: akka1
+    depends_on:
+     - database
+     - rabbit
+    links:
+     - database
+     - rabbit
+    ports:
+      - "8081:8080"
+
+  akka2:
+    image: dimetron/netserver
+    restart: always
+    hostname: akka2
+    depends_on:
+      - database
+      - rabbit
+    links:
+      - database
+      - rabbit
+    ports:
+      - "8082:8080"
+
+  akka3:
+    image: dimetron/netserver
+    restart: always
+    hostname: akka3
+    depends_on:
+      - database
+      - rabbit
+    links:
+      - database
+      - rabbit
+    ports:
+      - "8083:8080"
+
+  linkerd:
+    image: buoyantio/linkerd:1.0.0-rc2
+    restart: always
+    environment:      
+      - JVM_HEAP_MAX=512m
+    command: [/config.yaml]
+    restart: always
+    hostname: proxy
+    depends_on:
+     - akka1
+     - akka2
+     - akka3
+    links:
+      - akka1
+      - akka2
+      - akka3
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    volumes:
+     - ./volumes/linkerd/disco:/disco
+     - ./volumes/linkerd/config.yaml:/config.yaml
+
+
+
+
