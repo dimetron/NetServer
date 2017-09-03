@@ -65,10 +65,11 @@ libraryDependencies ++= {
 
   val scalazV = "7.2.15"
   val akkaVersion = "2.5.4"
-  val akkaHttpV = "10.0.9"
+  val akkaHttpV = "10.0.10"
   val scalaTestV = "3.2.0-SNAP9"
   val cassandraV = "3.3.0"
   val nettyV = "4.1.15.Final"
+  val kamonVersion = "0.6.7"
 
   val gatlingVersion = "3.0.0-SNAPSHOT"
 
@@ -99,7 +100,6 @@ libraryDependencies ++= {
     //"com.typesafe.akka" %% "akka-contrib" % akkaVersion,
 
     //Akka HTTP
-
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
     "com.typesafe.akka" %% "akka-http-core" % akkaHttpV,
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
@@ -112,6 +112,12 @@ libraryDependencies ++= {
     //integration alpakka
     "com.lightbend.akka" %% "akka-stream-alpakka-cassandra" % "0.11",
 
+    "io.kamon" %% "kamon-core" % kamonVersion,
+    "io.kamon" %% "kamon-jmx" % kamonVersion,
+    "io.kamon" %% "kamon-akka-2.5" % kamonVersion,
+    "io.kamon" %% "kamon-akka-http" % kamonVersion,
+    //"io.kamon" %% "kamon-datadog" % kamonVersion,
+
     "io.netty" % "netty-all" % nettyV,
     "io.netty" % "netty-codec" % nettyV,
     "io.netty" % "netty-handler" % nettyV,
@@ -120,6 +126,7 @@ libraryDependencies ++= {
     "org.scalaz" %% "scalaz-core" % scalazV,
 
     "com.datastax.cassandra" % "cassandra-driver-core" % cassandraV,
+    "org.mongodb.scala" %% "mongo-scala-driver" % "2.1.0",
     "ch.qos.logback" % "logback-classic" % "1.2.3",
 
     "org.scalactic" %% "scalactic" % scalaTestV % "test",

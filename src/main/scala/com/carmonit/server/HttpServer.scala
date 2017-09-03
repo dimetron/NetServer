@@ -25,11 +25,12 @@ import akka.http.scaladsl.Http.ServerBinding
 import akka.http.scaladsl.model.{ ContentTypes, HttpEntity }
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
-import akka.stream.scaladsl.{ Source }
+import akka.stream.scaladsl.Source
+import kamon.akka.http.KamonTraceDirectives
 
 import scala.concurrent.Future
 
-object HttpServer {
+object HttpServer extends KamonTraceDirectives {
 
   val HOST = "0.0.0.0"
   val PORT = 8080
@@ -50,19 +51,21 @@ object HttpServer {
 
   def getRoutes = {
     get {
-      withoutSizeLimit {
-        extractDataBytes { data =>
-          extractMaterializer { materializer =>
+      traceName("get-status") {
+        withoutSizeLimit {
+          extractDataBytes { data =>
+            extractMaterializer { materializer =>
 
-            val now = Calendar.getInstance().getTime()
-            val nanos = System.nanoTime().toLong
-            val source = s"""{"Status": "UP", "time": "$now-$nanos"}"""
+              val now = Calendar.getInstance().getTime()
+              val nanos = System.nanoTime().toLong
+              val source = s"""{"Status": "UP", "time": "$now-$nanos"}"""
 
-            val result = Source.single(source).runWith(CassandraStorage.getInsertLogDataSink)(materializer)
+              val result = Source.single(source).runWith(CassandraStorage.getInsertLogDataSink)(materializer)
 
-            // we only want to respond once the incoming data has been handled:
-            onComplete(result) { res =>
-              complete(HttpEntity(ContentTypes.`application/json`, source))
+              // we only want to respond once the incoming data has been handled:
+              onComplete(result) { res =>
+                complete(HttpEntity(ContentTypes.`application/json`, source))
+              }
             }
           }
         }

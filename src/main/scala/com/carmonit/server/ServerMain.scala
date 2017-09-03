@@ -16,7 +16,11 @@
 
 package com.carmonit.server
 
+import kamon.Kamon
+
 object ServerMain extends App {
+
+  Kamon.start()
 
   val tcpServer = TcpServer.startServer
   val httpServer = HttpServer.startServer
@@ -24,7 +28,10 @@ object ServerMain extends App {
   //shutdown hook
   sys.addShutdownHook {
     println(s"\n Shutdown ")
+
     TcpServer.stopServer(tcpServer)
     HttpServer.stopServer(httpServer)
+
+    Kamon.shutdown()
   }
 }

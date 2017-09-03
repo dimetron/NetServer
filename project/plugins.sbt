@@ -2,6 +2,8 @@ resolvers += "Artima plugins repository" at "http://repo.artima.com/releases"
 
 resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
 
+resolvers ++= Seq( Resolver.bintrayIvyRepo("kamon-io", "sbt-plugins"))
+
 resolvers += "sonatype-releases" at "https://oss.sonatype.org/content/repositories/releases/"
 
 resolvers += "bintray-sbt-plugin-releases" at "http://dl.bintray.com/content/sbt/sbt-plugin-releases"
@@ -21,6 +23,8 @@ addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.0")
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.2.0-M8")
+
+addSbtPlugin("io.kamon" % "sbt-aspectj-runner" % "1.0.1")
 
 // to kill and reload the spawned JVM
 // see: https://github.com/spray/sbt-revolver

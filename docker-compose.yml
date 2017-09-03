@@ -10,6 +10,20 @@ services:
     volumes:
      - ./volumes/cassandra/data:/var/lib/cassandra:rw
 
+  grafana_graphite:
+    image: kamon/grafana_graphite
+    container_name: kamon-grafana-dashboard
+    ports:
+      - '80:80'
+      - '81:81'
+      - '8125:8125/udp'
+      - '8126:8126'
+      - '2003:2003'
+    volumes:
+      - ./volumes/whisper:/opt/graphite/storage/whisper
+      - ./volumes/grafana:/opt/grafana/data
+      - ./volumes/graphite:/opt/graphite/storage/log
+
   rabbit:
     image: rabbitmq:3
     restart: always

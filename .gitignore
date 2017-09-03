@@ -6,6 +6,9 @@
 /target/
 /volumes/mongo/
 /volumes/cassandra/data/
+/volumes/whisper
+/volumes/grafana
+/volumes/graphite
 
 #Idea
 /.idea
